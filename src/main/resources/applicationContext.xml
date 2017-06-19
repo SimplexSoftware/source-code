@@ -14,12 +14,12 @@
     <context:component-scan base-package="ru.simplex_software.source_code" />
     <dao:hibernateScan base-package="ru.simplex_software.source_code.dao" />
 
-    <bean name="userDetailsService" class="ru.simplex_software.source_code.security.UserDetailsServiceImpl" />
-    <bean name="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider" >
-        <property name="userDetailsService" ref="userDetailsService"/>
-    </bean>
+    <!--<bean name="userDetailsService" class="ru.simplex_software.source_code.security.UserDetailsServiceImpl" />-->
+    <!--<bean name="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider" >-->
+        <!--<property name="userDetailsService" ref="userDetailsService"/>-->
+    <!--</bean>-->
     <bean name="uloginAuthentifiactionProvider" class="ru.simplex_software.security.ulogin.UloginAuthentifiactionProvider">
-        <constructor-arg value="${ulogin.site.url}"/>
+        <constructor-arg value="source-code.dev-server.ru"/>
     </bean>
 
     <bean class="ru.simplex_software.source_code.web.WicketApplication" />

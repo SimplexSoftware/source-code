@@ -29,7 +29,7 @@ public class AuthService {
             ULoginUser uLoginUser = uLoginAuth.getULoginUser();
             String id = uLoginUser.getIdentity();
             Speaker speaker = speakerDAO.get(id);
-            if(id==null){
+            if(speaker==null){
                 speaker = new Speaker();
                 speaker.setFio(uLoginUser.getFirstName()+ " "+ uLoginUser.getLastName());
                 speaker.setSocialId(id);
