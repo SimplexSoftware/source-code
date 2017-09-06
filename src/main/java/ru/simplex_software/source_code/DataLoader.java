@@ -87,7 +87,7 @@ public class DataLoader {
             meeting = new Meeting();
 
             SimpleDateFormat enterDateFormat = new SimpleDateFormat("MM/d/yy", Locale.ENGLISH);
-            Date date = enterDateFormat.parse("04/20/2017");
+            Date date = enterDateFormat.parse("09/20/2017");
 
             meeting.setDate(date);
             meeting.setReports(reportListPrevious);

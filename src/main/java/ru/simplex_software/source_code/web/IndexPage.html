@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:wicket="http://maven.apache.org/FML/1.0.1">
 
 <head>
 	<meta charset="utf-8">
@@ -26,7 +26,7 @@
 		<div class="header-left">
 			<div class="title">Клуб Java программистов "Исходный код"</div>
 			<div class="desc">
-				Клуб "Исходный код" предназначен для начинающих Java прогараммистов,
+				Клуб "Исходный код" предназначен для начинающих Java программистов,
 				которые заинтересованы в обмене опытом и обсуждением интересных тем.
 
 
@@ -56,35 +56,18 @@
 				</div>
 
 				<!--upcoming-meetings-list-->
-				<div class="upcoming-meetings-list">
+				<div class="upcoming-meetings-list" wicket:id="reports">
 					<div class="upcoming-meetings-list-item">
 						<div class="left-side">
-							<a href="#" class="title">Современная WEB-разработка</a>
-							<div class="author">Автор: Стрельников Артем Артемович</div>
+							<a  href="#" class="title" wicket:id="title">Современная WEB-разработка</a>
+							<div class="author" wicket:id="speaker">Автор: Стрельников Артем Артемович</div>
 						</div>
 						<div class="right-side">
-							<a href="#">подробнее</a>
+							<a href="#" wicket:id="more">подробнее</a>
 						</div>
 					</div>
-					<div class="upcoming-meetings-list-item">
-						<div class="left-side">
-							<a href="#" class="title">Алгоритмы. Олимпиадное программирование</a>
-							<div class="author">Автор: Стрельников Артем Артемович</div>
-						</div>
-						<div class="right-side">
-							<a href="#">подробнее</a>
-						</div>
-					</div>
-					<div class="upcoming-meetings-list-item">
-						<div class="left-side">
-							<a href="#" class="title">Основы программирования на языке Java</a>
-							<div class="author">Автор: Стрельников Артем Артемович</div>
-						</div>
-						<div class="right-side">
-							<a href="#">подробнее</a>
-						</div>
-					</div>
-					<form action="#" method="post" class="add-topic-form">
+
+					<form wicket:id="commentForm" action="#" method="post" class="add-topic-form">
 						<input type="text" name="title" placeholder="Тема" required>
 						<button type="submit" class="btn">Добавить тему</button>
 					</form>
