@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:wicket="http://maven.apache.org/FML/1.0.1">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
 <head>
 	<meta charset="utf-8">
@@ -64,9 +64,26 @@
 							<a href="#" wicket:id="more">[Подробнее]</a>
 						</div>
 					</div>
-
-					<form wicket:id="commentForm" action="#" method="post" class="add-topic-form">
-						<input type="text" name="title" placeholder="Тема" required>
+					<div class="upcoming-meetings-list-item">
+						<div class="left-side">
+							<a href="#" class="title">Алгоритмы. Олимпиадное программирование</a>
+							<div class="author">Автор: Стрельников Артем Артемович</div>
+						</div>
+						<div class="right-side">
+							<a href="#">подробнее</a>
+						</div>
+					</div>
+					<div class="upcoming-meetings-list-item">
+						<div class="left-side">
+							<a href="#" class="title">Основы программирования на языке Java</a>
+							<div class="author">Автор: Стрельников Артем Артемович</div>
+						</div>
+						<div class="right-side">
+							<a href="#">подробнее</a>
+						</div>
+					</div>
+					<form class="add-topic-form" wicket:id="form">
+						<input type="text" name="title" placeholder="Тема" wicket:id="repInput">
 						<button type="submit" class="btn">Добавить тему</button>
 					</form>
 				</div>
@@ -83,7 +100,7 @@
 				<div class="past-meetings-list">
 					<div class="past-meetings-list-item" wicket:id="prevMeeting">
 						<div class="date" wicket:id="data">[date]</div>
-						<div class="title" wicket:id="title">[Тема]</div>
+						<div class="title" wicket:id="report">[Тема]</div>
 					    <div class="author" wicket:id="speaker">[Автор]</div>
 					</div>
 				</div>

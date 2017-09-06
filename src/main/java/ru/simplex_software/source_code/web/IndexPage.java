@@ -2,6 +2,8 @@ package ru.simplex_software.source_code.web;
 
 import net.sf.wicketautodao.model.HibernateModelList;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -15,6 +17,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ru.simplex_software.source_code.dao.MeetingDAO;
 import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
+import ru.simplex_software.source_code.security.AuthService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +29,11 @@ public class IndexPage extends WebPage {
 	@SpringBean
 	private MeetingDAO meetingDAO;
 
-	public IndexPage(final PageParameters parameters)  throws ParseException {
+    @SpringBean
+    private AuthService authService;
+    private Model<String> reportTitleModel=new Model<>("");
+
+	public IndexPage(final PageParameters parameters) throws ParseException {
 		super(parameters);
 
 		Meeting meeting = meetingDAO.findNewMeeting(new Date());
@@ -52,7 +59,7 @@ public class IndexPage extends WebPage {
 			}
 		});
 
-		add(new CommentForm("commentForm"));
+		//add(new CommentForm("commentForm"));
 
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderPrevMeeting =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findPastMeeting", Model.of(new Date()));
@@ -68,9 +75,25 @@ public class IndexPage extends WebPage {
 				item.add(new Label("title", String.valueOf(meet.getReports().get(0).getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
 
-			}
-		});
+		}
+	});
+
+
+        Form<Void> form = new Form<Void>("form"){
+            @Override
+            protected void onSubmit() {
+                Report rep = new Report();
+                rep.setTitle(reportTitleModel.getObject());
+                rep.setAuthor(authService.getLoginnedAccount());
+            }
+        };
+        form.add(new TextField<>("repInput",reportTitleModel));
+
+        add(form);
+
+
     }
+
 
 
 }
