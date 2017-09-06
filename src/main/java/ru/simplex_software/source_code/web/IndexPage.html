@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
 <head>
 	<meta charset="utf-8">
@@ -84,8 +84,8 @@
 							<a href="#">подробнее</a>
 						</div>
 					</div>
-					<form action="#" method="post" class="add-topic-form">
-						<input type="text" name="title" placeholder="Тема" required>
+					<form class="add-topic-form" wicket:id="form">
+						<input type="text" name="title" placeholder="Тема" wicket:id="repInput">
 						<button type="submit" class="btn">Добавить тему</button>
 					</form>
 				</div>
