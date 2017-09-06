@@ -53,7 +53,7 @@ public class IndexPage extends WebPage {
 
 				Report report = item.getModel().getObject();
 
-				item.add(new MultiLineLabel("title", String.valueOf(report.getTitle())));
+				item.add(new MultiLineLabel("report", String.valueOf(report.getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + report.getAuthor().getFio())));
 				item.add(new Label("more", "подробнее"));
 			}
@@ -72,7 +72,7 @@ public class IndexPage extends WebPage {
 
 				item.add(new Label("data", String.valueOf(new SimpleDateFormat
 						("dd.MM.yyyy").format(meet.getDate()))));
-				item.add(new Label("title", String.valueOf(meet.getReports().get(0).getTitle())));
+				item.add(new Label("report", String.valueOf(meet.getReports().get(0).getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
 
 		}
