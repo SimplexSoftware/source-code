@@ -71,4 +71,6 @@
     <bean class="ru.simplex_software.source_code.DataLoader" />
     <bean class="ru.simplex_software.source_code.DataLoaderInit" depends-on="sessionFactory" />
 
+    <bean class="net.sf.wicketautodao.model.AutoDaoFinder" />
+
 </beans>
