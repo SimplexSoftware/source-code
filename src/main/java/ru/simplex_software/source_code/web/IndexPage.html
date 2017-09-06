@@ -28,8 +28,6 @@
 			<div class="desc">
 				Клуб "Исходный код" предназначен для начинающих Java программистов,
 				которые заинтересованы в обмене опытом и обсуждением интересных тем.
-
-
 			</div>
 			<a href="#" class="more">Подробнее...</a>
 		</div>
@@ -51,19 +49,19 @@
 			<!--upcoming-meetings-->
 			<div class="upcoming-meetings">
 				<div class="styled-title">
-					24.04.2017<br>
-					<span>Встреча программистов г. Москва</span>
+					<div  class="styled-title" wicket:id="meetingDate">[Дата]</div>
+					<span wicket:id="meetingTitle">[Название]</span>
 				</div>
 
 				<!--upcoming-meetings-list-->
-				<div class="upcoming-meetings-list" wicket:id="reports">
-					<div class="upcoming-meetings-list-item">
+				<div class="upcoming-meetings-list">
+					<div class="upcoming-meetings-list-item" wicket:id="newMeeting">
 						<div class="left-side">
-							<a  href="#" class="title" wicket:id="title">Современная WEB-разработка</a>
-							<div class="author" wicket:id="speaker">Автор: Стрельников Артем Артемович</div>
+							<a  href="#" class="title" wicket:id="title">[Тема]</a>
+							<div class="author" wicket:id="speaker">[Автор]</div>
 						</div>
 						<div class="right-side">
-							<a href="#" wicket:id="more">подробнее</a>
+							<a href="#" wicket:id="more">[Подробнее]</a>
 						</div>
 					</div>
 
@@ -83,9 +81,9 @@
 
 				<!--past-meetings-list-->
 				<div class="past-meetings-list">
-					<div class="past-meetings-list-item" wicket:id="simple">
+					<div class="past-meetings-list-item" wicket:id="prevMeeting">
 						<div class="date" wicket:id="data">[date]</div>
-						<div class="title" wicket:id="report">[Тема]</div>
+						<div class="title" wicket:id="title">[Тема]</div>
 					    <div class="author" wicket:id="speaker">[Автор]</div>
 					</div>
 				</div>
