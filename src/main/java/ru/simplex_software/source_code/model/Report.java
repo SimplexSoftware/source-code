@@ -5,17 +5,22 @@ import org.slf4j.LoggerFactory;
 import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 /**
  * Доклад.
  */
 @Entity
-public class Report extends LongIdPersistentEntity {
+public class Report extends LongIdPersistentEntity implements Serializable{
     private static final Logger LOG = LoggerFactory.getLogger(Report.class);
     @OneToOne
     private Speaker author;
     private String title;
+
+    @ManyToOne
+    private Meeting meeting;
 
     public Speaker getAuthor() {
         return author;
@@ -31,5 +36,13 @@ public class Report extends LongIdPersistentEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
     }
 }
