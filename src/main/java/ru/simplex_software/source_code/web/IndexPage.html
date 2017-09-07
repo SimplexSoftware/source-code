@@ -50,7 +50,7 @@
 			<div class="upcoming-meetings">
 				<div class="styled-title">
 					<div  class="styled-title" wicket:id="meetingDate">[Дата]</div>
-					<span wicket:id="meetingTitle">[Название]</span>
+					<span>Встреча программистов г. Москва</span>
 				</div>
 
 				<!--upcoming-meetings-list-->
@@ -58,30 +58,13 @@
 					<div class="upcoming-meetings-list-item" wicket:id="newMeeting">
 						<div class="left-side">
 							<a  href="#" class="title" wicket:id="report">[Тема]</a>
-							<div class="author" wicket:id="speaker">[Автор]</div>
+							<div class="author" >Автор: <span wicket:id="speaker">[Автор]</span></div>
 						</div>
 						<div class="right-side">
-							<a href="#" wicket:id="more">[Подробнее]</a>
+							<a href="#" >подробнее</a>
 						</div>
 					</div>
-					<div class="upcoming-meetings-list-item">
-						<div class="left-side">
-							<a href="#" class="title">Алгоритмы. Олимпиадное программирование</a>
-							<div class="author">Автор: Стрельников Артем Артемович</div>
-						</div>
-						<div class="right-side">
-							<a href="#">подробнее</a>
-						</div>
-					</div>
-					<div class="upcoming-meetings-list-item">
-						<div class="left-side">
-							<a href="#" class="title">Основы программирования на языке Java</a>
-							<div class="author">Автор: Стрельников Артем Артемович</div>
-						</div>
-						<div class="right-side">
-							<a href="#">подробнее</a>
-						</div>
-					</div>
+
 					<form class="add-topic-form" wicket:id="form">
 						<input type="text" name="title" placeholder="Тема" wicket:id="repInput">
 						<button type="submit" class="btn">Добавить тему</button>

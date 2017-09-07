@@ -13,7 +13,7 @@ import java.util.List;
 public interface MeetingDAO extends Dao<Meeting, Long>{
     @Finder(query = "FROM Meeting WHERE date >= :date")
 //    List<Meeting> findNewMeeting(@Named("date")Date date);
-    Meeting findNewMeeting(@Named("date")Date date);
+    List<Meeting> findNewMeeting(@Named("date")Date date);
 
     @Finder(query = "select count(m) from  Meeting m where date<:date")
     long getCountPastMetting(@Named("date") Date date);

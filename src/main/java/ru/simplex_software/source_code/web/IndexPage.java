@@ -1,15 +1,14 @@
 package ru.simplex_software.source_code.web;
 
-import net.sf.wicketautodao.model.HibernateModelList;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
@@ -20,7 +19,9 @@ import ru.simplex_software.source_code.model.Report;
 import ru.simplex_software.source_code.security.AuthService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class IndexPage extends WebPage {
@@ -36,26 +37,33 @@ public class IndexPage extends WebPage {
 	public IndexPage(final PageParameters parameters) throws ParseException {
 		super(parameters);
 
-		Meeting meeting = meetingDAO.findNewMeeting(new Date());
-
+		Meeting meeting0 = meetingDAO.findNewMeeting(new Date()).get(0);
 		SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
-		String date = enterDateFormat.format(meeting.getDate());
+		String date = enterDateFormat.format(meeting0.getDate());
 
 		add(new Label("meetingDate", date));
-		add(new Label("meetingTitle", "Встреча программистов г. Москва"));
 
-		List<Report> reports = meeting.getReports();
-
-		add(new ListView<Report>("newMeeting", new HibernateModelList<Report>(reports)) {
+		add(new RefreshingView<Report>("newMeeting") {
 			@Override
-			public void populateItem(ListItem<Report> item) {
-
+			protected void populateItem(Item<Report> item) {
 
 				Report report = item.getModel().getObject();
-
 				item.add(new MultiLineLabel("report", String.valueOf(report.getTitle())));
-				item.add(new Label("speaker", String.valueOf("Автор: " + report.getAuthor().getFio())));
-				item.add(new Label("more", "подробнее"));
+				item.add(new Label("speaker",  report.getAuthor().getFio()));
+			}
+
+			@Override
+			protected Iterator<IModel<Report>> getItemModels() {
+				Meeting meeting = meetingDAO.findNewMeeting(new Date()).get(0);
+
+				List<Report> reports = meeting.getReports();
+				final List<IModel<Report>> reportModel = new ArrayList<IModel<Report>>();
+
+				for(Report report: reports){
+					reportModel.add(Model.of(report));
+				}
+
+				return reportModel.iterator();
 			}
 		});
 
@@ -72,7 +80,6 @@ public class IndexPage extends WebPage {
 						("dd.MM.yyyy").format(meet.getDate()))));
 				item.add(new Label("report", String.valueOf(meet.getReports().get(0).getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
-
 		}
 	});
 
