@@ -59,8 +59,6 @@ public class IndexPage extends WebPage {
 			}
 		});
 
-		//add(new CommentForm("commentForm"));
-
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderPrevMeeting =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findPastMeeting", Model.of(new Date()));
 
