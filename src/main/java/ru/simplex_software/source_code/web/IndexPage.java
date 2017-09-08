@@ -2,9 +2,11 @@ package ru.simplex_software.source_code.web;
 
 import net.sf.wicketautodao.model.HibernateModel;
 import net.sf.wicketautodao.model.HibernateModelList;
+import net.sf.wicketautodao.model.HibernateModelSet;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -19,11 +21,11 @@ import ru.simplex_software.source_code.dao.MeetingDAO;
 import ru.simplex_software.source_code.dao.ReportDAO;
 import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
+import ru.simplex_software.source_code.model.Speaker;
 import ru.simplex_software.source_code.security.AuthService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class IndexPage extends WebPage {
 	private static final long serialVersionUID = 1L;
@@ -53,10 +55,45 @@ public class IndexPage extends WebPage {
 			public void populateItem(ListItem<Report> item) {
 
 
-				Report report = item.getModel().getObject();
+				HibernateModel<Report> report = new HibernateModel<>(item.getModel().getObject());
+				HibernateModelSet<Speaker> speakList =
+						new HibernateModelSet<>(item.getModel().getObject().getSetLikeSpeaker());
 
-				item.add(new MultiLineLabel("report", String.valueOf(report.getTitle())));
-				item.add(new Label("speaker", String.valueOf("Автор: " + report.getAuthor().getFio())));
+				item.add(new MultiLineLabel("report", String.valueOf(report.getObject().getTitle())));
+
+				final Link plusClickLink = new Link<Void>("plusClickLink")
+				{
+					@Override
+					public void onClick()
+					{
+						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
+							Report rep = report.getObject();
+							rep.setLikeCounter(rep.getLikeCounter() + 1);
+							speakList.getObject().add(authService.getLoginnedAccount());
+							rep.setSetLikeSpeaker(speakList.getObject());
+							reportDAO.saveOrUpdate(rep);
+						}
+					}
+				};
+				final Link disClickLink = new Link<Void>("disClickLink")
+				{
+					@Override
+					public void onClick()
+					{
+						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
+							Report rep = report.getObject();
+							rep.setDislike(rep.getDislike() + 1);
+							speakList.getObject().add(authService.getLoginnedAccount());
+							rep.setSetLikeSpeaker(speakList.getObject());
+							reportDAO.saveOrUpdate(rep);
+						}
+					}
+				};
+				item.add(plusClickLink);
+				item.add(disClickLink);
+				item.add(new Label("likeCounter", String.valueOf(report.getObject().getLikeCounter())));
+				item.add(new Label("dislike", String.valueOf(report.getObject().getDislike())));
+				item.add(new Label("speaker", String.valueOf("Автор: " + report.getObject().getAuthor().getFio())));
 				item.add(new Label("more", "подробнее"));
 			}
 		});

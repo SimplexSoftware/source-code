@@ -670,21 +670,20 @@ body {
   font-size: 0;
 }
 
-.main .wrap .right-main-content .wishes .wishes-list .wishes-list-item .right-side .like,
-.main .wrap .right-main-content .wishes .wishes-list .wishes-list-item .right-side .dislike {
+.like, .dislike {
   display: inline-block;
   vertical-align: top;
   width: 19px;
   height: 20px;
 }
 
-.main .wrap .right-main-content .wishes .wishes-list .wishes-list-item .right-side .like {
+.like {
   margin-right: 5px;
   vertical-align: middle;
   background: url("/img/sprite.png") no-repeat 0 0;
 }
 
-.main .wrap .right-main-content .wishes .wishes-list .wishes-list-item .right-side .dislike {
+.dislike {
   width: 19px;
   height: 20px;
   background: url("/img/sprite.png") no-repeat -27px 0;
