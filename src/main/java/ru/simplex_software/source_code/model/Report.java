@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
  * Доклад.
  */
 @Entity
-public class Report extends LongIdPersistentEntity {
+public class Report extends LongIdPersistentEntity implements Serializable{
     private static final Logger LOG = LoggerFactory.getLogger(Report.class);
     @OneToOne
     private Speaker author;
@@ -22,6 +23,9 @@ public class Report extends LongIdPersistentEntity {
     private int dislike = 0;
     @ManyToMany
     private Set<Speaker> setLikeSpeaker = new HashSet<>();
+
+    @ManyToOne
+    private Meeting meeting;
 
     public Speaker getAuthor() {
         return author;
@@ -61,5 +65,13 @@ public class Report extends LongIdPersistentEntity {
 
     public void setSetLikeSpeaker(Set<Speaker> setLikeSpeaker) {
         this.setLikeSpeaker = setLikeSpeaker;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
     }
 }

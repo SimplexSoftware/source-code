@@ -17,7 +17,8 @@ import java.util.List;
 public class Meeting extends LongIdPersistentEntity {
     private static final Logger LOG = LoggerFactory.getLogger(Meeting.class);
     private Date date = new Date();
-    @OneToMany
+
+    @OneToMany(mappedBy = "meeting")
     private List<Report> reports = new ArrayList<>();
 
     public Date getDate() {

@@ -12,7 +12,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
@@ -36,30 +35,36 @@ public class IndexPage extends WebPage {
 	private ReportDAO reportDAO;
     @SpringBean
     private AuthService authService;
+
     private Model<String> reportTitleModel=new Model<>("");
 
 	public IndexPage(final PageParameters parameters) throws ParseException {
 		super(parameters);
 
-		HibernateModel<Meeting> meeting = new HibernateModel<>(meetingDAO.findNewMeeting(new Date()));
-		HibernateModelList<Report> reports = new HibernateModelList<>(meeting.getObject().getReports());
+		HibernateModel<Meeting> meeting = new HibernateModel<>(meetingDAO.findNewMeeting(new Date()).get(0));
 
 		SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
 		String date = enterDateFormat.format(meeting.getObject().getDate());
 
+//		HibernateModelList<Report> reports = new HibernateModelList<>(meeting.getObject().getReports());
+
 		add(new Label("meetingDate", date));
-		add(new Label("meetingTitle", "Встреча программистов г. Москва"));
 
-		add(new ListView<Report>("newMeeting", reports) {
+		HibernateQueryDataProvider<Meeting, Long> hqDataProviderNewMeeting =
+				new	HibernateQueryDataProvider(MeetingDAO.class,"findNewMeeting", Model.of(new Date()));
+
+		DataView<Meeting> dataView = new DataView<Meeting>("newMeeting", hqDataProviderNewMeeting) {
 			@Override
-			public void populateItem(ListItem<Report> item) {
+			protected void populateItem(Item<Meeting> item) {
 
+				Report report = item.getModel().getObject().getReports().iterator().next();
 
-				HibernateModel<Report> report = new HibernateModel<>(item.getModel().getObject());
+				item.add(new MultiLineLabel("report", report.getTitle()));
+				item.add(new Label("speaker",  report.getAuthor().getFio()));
+				HibernateModel<Report> repModel = new HibernateModel<>(report);
 				HibernateModelSet<Speaker> speakList =
-						new HibernateModelSet<>(item.getModel().getObject().getSetLikeSpeaker());
+						new HibernateModelSet<>(repModel.getObject().getSetLikeSpeaker());
 
-				item.add(new MultiLineLabel("report", String.valueOf(report.getObject().getTitle())));
 
 				final Link plusClickLink = new Link<Void>("plusClickLink")
 				{
@@ -67,11 +72,11 @@ public class IndexPage extends WebPage {
 					public void onClick()
 					{
 						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
-							Report rep = report.getObject();
-							rep.setLikeCounter(rep.getLikeCounter() + 1);
+							Report report = repModel.getObject();
+							report.setLikeCounter(report.getLikeCounter() + 1);
 							speakList.getObject().add(authService.getLoginnedAccount());
-							rep.setSetLikeSpeaker(speakList.getObject());
-							reportDAO.saveOrUpdate(rep);
+                            report.setSetLikeSpeaker(speakList.getObject());
+							reportDAO.saveOrUpdate(report);
 						}
 					}
 				};
@@ -81,22 +86,23 @@ public class IndexPage extends WebPage {
 					public void onClick()
 					{
 						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
-							Report rep = report.getObject();
-							rep.setDislike(rep.getDislike() + 1);
+							Report report = repModel.getObject();
+                            report.setDislike(report.getDislike() + 1);
 							speakList.getObject().add(authService.getLoginnedAccount());
-							rep.setSetLikeSpeaker(speakList.getObject());
-							reportDAO.saveOrUpdate(rep);
+                            report.setSetLikeSpeaker(speakList.getObject());
+							reportDAO.saveOrUpdate(report);
 						}
 					}
 				};
 				item.add(plusClickLink);
 				item.add(disClickLink);
-				item.add(new Label("likeCounter", String.valueOf(report.getObject().getLikeCounter())));
-				item.add(new Label("dislike", String.valueOf(report.getObject().getDislike())));
-				item.add(new Label("speaker", String.valueOf("Автор: " + report.getObject().getAuthor().getFio())));
-				item.add(new Label("more", "подробнее"));
+				item.add(new Label("likeCounter", String.valueOf(repModel.getObject().getLikeCounter())));
+				item.add(new Label("dislike", String.valueOf(repModel.getObject().getDislike())));
 			}
-		});
+		};
+
+		add(dataView);
+
 
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderPrevMeeting =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findPastMeeting", Model.of(new Date()));
@@ -111,10 +117,8 @@ public class IndexPage extends WebPage {
 						("dd.MM.yyyy").format(meet.getDate()))));
 				item.add(new Label("report", String.valueOf(meet.getReports().get(0).getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
-
 		    }
 	    });
-
 
         Form<Void> form = new Form<Void>("form"){
             @Override
@@ -128,11 +132,9 @@ public class IndexPage extends WebPage {
 				meetingDAO.saveOrUpdate(meeting.getObject());
 
                 reportTitleModel.setObject("");
-
             }
         };
         form.add(new TextField<>("repInput",reportTitleModel));
-
 
         add(form);
 
