@@ -159,6 +159,8 @@ public class DataLoader {
             //            2-я встреча
             meeting = new Meeting();
 
+            SimpleDateFormat enterDateFormat = new SimpleDateFormat("MM/d/yy", Locale.ENGLISH);
+            Date date = enterDateFormat.parse("08/20/2017");
             speaker = new Speaker();
             speaker.setSocialId("http://vk.com/nahov12345");
             speaker.setFio("Нахов Пётр Валерьевич");

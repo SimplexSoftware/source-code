@@ -1,5 +1,7 @@
 package ru.simplex_software.source_code.web;
 
+import net.sf.wicketautodao.model.HibernateModel;
+import net.sf.wicketautodao.model.HibernateModelList;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -14,6 +16,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ru.simplex_software.source_code.dao.MeetingDAO;
+import ru.simplex_software.source_code.dao.ReportDAO;
 import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
 import ru.simplex_software.source_code.security.AuthService;
@@ -29,7 +32,8 @@ public class IndexPage extends WebPage {
 
 	@SpringBean
 	private MeetingDAO meetingDAO;
-
+	@SpringBean
+	private ReportDAO reportDAO;
     @SpringBean
     private AuthService authService;
     private Model<String> reportTitleModel=new Model<>("");
@@ -41,7 +45,26 @@ public class IndexPage extends WebPage {
 		SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
 		String date = enterDateFormat.format(meeting0.getDate());
 
+		/*HibernateModel<Meeting> meeting = new HibernateModel<>(meetingDAO.findNewMeeting(new Date()));
+		HibernateModelList<Report> reports = new HibernateModelList<>(meeting.getObject().getReports());
+
+		SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
+		String date = enterDateFormat.format(meeting.getObject().getDate());
+*/
 		add(new Label("meetingDate", date));
+
+		/*add(new ListView<Report>("newMeeting", reports) {
+			@Override
+			public void populateItem(ListItem<Report> item) {
+
+
+				Report report = item.getModel().getObject();
+
+				item.add(new MultiLineLabel("report", String.valueOf(report.getTitle())));
+				item.add(new Label("speaker", String.valueOf("Автор: " + report.getAuthor().getFio())));
+				item.add(new Label("more", "подробнее"));
+			}
+		});*/
 
 		add(new RefreshingView<Report>("newMeeting") {
 			@Override
@@ -80,8 +103,9 @@ public class IndexPage extends WebPage {
 						("dd.MM.yyyy").format(meet.getDate()))));
 				item.add(new Label("report", String.valueOf(meet.getReports().get(0).getTitle())));
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
-		}
-	});
+
+		    }
+	    });
 
 
         Form<Void> form = new Form<Void>("form"){
@@ -90,9 +114,17 @@ public class IndexPage extends WebPage {
                 Report rep = new Report();
                 rep.setTitle(reportTitleModel.getObject());
                 rep.setAuthor(authService.getLoginnedAccount());
+                reportDAO.saveOrUpdate(rep);
+                reports.getObject().add(rep);
+				meeting.getObject().setReports(reports.getObject());
+				meetingDAO.saveOrUpdate(meeting.getObject());
+
+                reportTitleModel.setObject("");
+
             }
         };
         form.add(new TextField<>("repInput",reportTitleModel));
+
 
         add(form);
 
