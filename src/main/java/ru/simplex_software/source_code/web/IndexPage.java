@@ -1,7 +1,6 @@
 package ru.simplex_software.source_code.web;
 
 import net.sf.wicketautodao.model.HibernateModel;
-import net.sf.wicketautodao.model.HibernateModelSet;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -23,6 +22,7 @@ import ru.simplex_software.source_code.security.AuthService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 public class IndexPage extends WebPage {
@@ -59,41 +59,50 @@ public class IndexPage extends WebPage {
 				item.add(new MultiLineLabel("report", report.getTitle()));
 				item.add(new Label("speaker",  report.getAuthor().getFio()));
 				HibernateModel<Report> repModel = new HibernateModel<>(report);
-				HibernateModelSet<Speaker> speakers =
-						new HibernateModelSet<>(repModel.getObject().getSetLikeSpeaker());
 
 
-				final Link plusClickLink = new Link<Void>("plusClickLink")
+				final Link plusClickLink = new Link<Report>("plusClickLink",repModel)
 				{
 					@Override
 					public void onClick()
 					{
-						Set<Speaker> speakSet= speakers.getObject();
 						Report report = repModel.getObject();
+						Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
 
-						if (!speakSet.contains(authService.getLoginnedAccount())) {
-							report.setLikeCounter(report.getLikeCounter() + 1);
-							speakSet.add(authService.getLoginnedAccount());
-                            report.setSetLikeSpeaker(speakSet);
-							reportDAO.saveOrUpdate(report);
-						}
+                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
+                            report.setLikeCounter(report.getLikeCounter() + 1);
+                            speakMap.put(authService.getLoginnedAccount(),true);
+                            report.setWhoLikedIt(speakMap);
+                        } else if (!speakMap.get(authService.getLoginnedAccount())){
+                            report.setLikeCounter(report.getLikeCounter() + 1);
+                            report.setDislike(report.getDislike() - 1);
+                            speakMap.put(authService.getLoginnedAccount(),true);
+                            report.setWhoLikedIt(speakMap);
+                        }
+
+                        reportDAO.saveOrUpdate(report);
 					}
 				};
-				final Link disClickLink = new Link<Void>("disClickLink")
+				final Link disClickLink = new Link<Report>("disClickLink",repModel)
 				{
 					@Override
 					public void onClick()
 					{
-						Set<Speaker> speakSet= speakers.getObject();
 						Report report = repModel.getObject();
+						Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
 
-						if (!speakSet.contains(authService.getLoginnedAccount())) {
+						if (!speakMap.containsKey(authService.getLoginnedAccount())) {
                             report.setDislike(report.getDislike() + 1);
-							speakSet.add(authService.getLoginnedAccount());
-                            report.setSetLikeSpeaker(speakSet);
-							reportDAO.saveOrUpdate(report);
-						}
-					}
+                            speakMap.put(authService.getLoginnedAccount(),false);
+                            report.setWhoLikedIt(speakMap);
+						} else if (speakMap.get(authService.getLoginnedAccount())){
+                            report.setLikeCounter(report.getLikeCounter() - 1);
+                            report.setDislike(report.getDislike() + 1);
+                            speakMap.put(authService.getLoginnedAccount(),false);
+                            report.setWhoLikedIt(speakMap);
+                        }
+                        reportDAO.saveOrUpdate(report);
+                    }
 				};
 				item.add(plusClickLink);
 				item.add(disClickLink);

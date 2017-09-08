@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Доклад.
@@ -20,8 +20,11 @@ public class Report extends LongIdPersistentEntity{
     @Column
     private int likeCounter = 0;
     private int dislike = 0;
-    @ManyToMany
-    private Set<Speaker> setLikeSpeaker = new HashSet<>();
+    @ElementCollection
+    @CollectionTable
+    @Column
+    @MapKeyJoinColumn
+    private Map<Speaker,Boolean> whoLikedIt = new HashMap<>();
 
     @ManyToOne
     private Meeting meeting;
@@ -58,12 +61,12 @@ public class Report extends LongIdPersistentEntity{
         return dislike;
     }
 
-    public Set<Speaker> getSetLikeSpeaker() {
-        return setLikeSpeaker;
+    public Map<Speaker, Boolean> getWhoLikedIt() {
+        return whoLikedIt;
     }
 
-    public void setSetLikeSpeaker(Set<Speaker> setLikeSpeaker) {
-        this.setLikeSpeaker = setLikeSpeaker;
+    public void setWhoLikedIt(Map<Speaker, Boolean> whoLikedIt) {
+        this.whoLikedIt = whoLikedIt;
     }
 
     public Meeting getMeeting() {
