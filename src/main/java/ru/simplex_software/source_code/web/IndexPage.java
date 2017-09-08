@@ -1,13 +1,11 @@
 package ru.simplex_software.source_code.web;
 
 import net.sf.wicketautodao.model.HibernateModel;
-import net.sf.wicketautodao.model.HibernateModelList;
 import net.sf.wicketautodao.model.HibernateModelSet;
 import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
@@ -25,6 +23,7 @@ import ru.simplex_software.source_code.security.AuthService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 public class IndexPage extends WebPage {
 	private static final long serialVersionUID = 1L;
@@ -46,8 +45,6 @@ public class IndexPage extends WebPage {
 		SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
 		String date = enterDateFormat.format(meeting.getObject().getDate());
 
-//		HibernateModelList<Report> reports = new HibernateModelList<>(meeting.getObject().getReports());
-
 		add(new Label("meetingDate", date));
 
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderNewMeeting =
@@ -62,7 +59,7 @@ public class IndexPage extends WebPage {
 				item.add(new MultiLineLabel("report", report.getTitle()));
 				item.add(new Label("speaker",  report.getAuthor().getFio()));
 				HibernateModel<Report> repModel = new HibernateModel<>(report);
-				HibernateModelSet<Speaker> speakList =
+				HibernateModelSet<Speaker> speakers =
 						new HibernateModelSet<>(repModel.getObject().getSetLikeSpeaker());
 
 
@@ -71,11 +68,13 @@ public class IndexPage extends WebPage {
 					@Override
 					public void onClick()
 					{
-						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
-							Report report = repModel.getObject();
+						Set<Speaker> speakSet= speakers.getObject();
+						Report report = repModel.getObject();
+
+						if (!speakSet.contains(authService.getLoginnedAccount())) {
 							report.setLikeCounter(report.getLikeCounter() + 1);
-							speakList.getObject().add(authService.getLoginnedAccount());
-                            report.setSetLikeSpeaker(speakList.getObject());
+							speakSet.add(authService.getLoginnedAccount());
+                            report.setSetLikeSpeaker(speakSet);
 							reportDAO.saveOrUpdate(report);
 						}
 					}
@@ -85,11 +84,13 @@ public class IndexPage extends WebPage {
 					@Override
 					public void onClick()
 					{
-						if (!speakList.getObject().contains(authService.getLoginnedAccount())) {
-							Report report = repModel.getObject();
+						Set<Speaker> speakSet= speakers.getObject();
+						Report report = repModel.getObject();
+
+						if (!speakSet.contains(authService.getLoginnedAccount())) {
                             report.setDislike(report.getDislike() + 1);
-							speakList.getObject().add(authService.getLoginnedAccount());
-                            report.setSetLikeSpeaker(speakList.getObject());
+							speakSet.add(authService.getLoginnedAccount());
+                            report.setSetLikeSpeaker(speakSet);
 							reportDAO.saveOrUpdate(report);
 						}
 					}
@@ -101,6 +102,23 @@ public class IndexPage extends WebPage {
 			}
 		};
 
+		Form<Void> form = new Form<Void>("form"){
+			@Override
+			protected void onSubmit() {
+				Report rep = new Report();
+				rep.setTitle(reportTitleModel.getObject());
+				rep.setAuthor(authService.getLoginnedAccount());
+				rep.setMeeting(meeting.getObject());
+				reportDAO.saveOrUpdate(rep);
+				meeting.getObject().getReports().add(rep);
+				meetingDAO.saveOrUpdate(meeting.getObject());
+
+				reportTitleModel.setObject("");
+			}
+		};
+		form.add(new TextField<>("repInput",reportTitleModel));
+
+		add(form);
 		add(dataView);
 
 
@@ -119,25 +137,6 @@ public class IndexPage extends WebPage {
 				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
 		    }
 	    });
-
-        Form<Void> form = new Form<Void>("form"){
-            @Override
-            protected void onSubmit() {
-                Report rep = new Report();
-                rep.setTitle(reportTitleModel.getObject());
-                rep.setAuthor(authService.getLoginnedAccount());
-                reportDAO.saveOrUpdate(rep);
-                reports.getObject().add(rep);
-				meeting.getObject().setReports(reports.getObject());
-				meetingDAO.saveOrUpdate(meeting.getObject());
-
-                reportTitleModel.setObject("");
-            }
-        };
-        form.add(new TextField<>("repInput",reportTitleModel));
-
-        add(form);
-
 
     }
 
