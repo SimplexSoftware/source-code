@@ -62,5 +62,4 @@ public class Speaker implements PersistentEntity<String>{
         this.raiting = raiting;
     }
 
-
 }

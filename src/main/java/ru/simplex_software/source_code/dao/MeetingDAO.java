@@ -12,7 +12,6 @@ import java.util.List;
 @AutoDAO
 public interface MeetingDAO extends Dao<Meeting, Long>{
     @Finder(query = "FROM Meeting WHERE date >= :date")
-//    List<Meeting> findNewMeeting(@Named("date")Date date);
     List<Meeting> findNewMeeting(@Named("date")Date date);
 
     @Finder(query = "select count(m) from  Meeting m where date<:date")
