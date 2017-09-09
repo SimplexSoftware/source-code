@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+<head>
+    <title>Title</title>
+</head>
+<body>
+    <wicket:panel>
+        <!--upcoming-meetings-->
+        <div class="upcoming-meetings">
+            <div class="styled-title">
+                <div  class="styled-title" wicket:id="meetingDate">[Дата]</div>
+                <span>Встреча программистов г. Москва</span>
+            </div>
+
+            <!--upcoming-meetings-list-->
+            <div class="upcoming-meetings-list">
+                <div class="upcoming-meetings-list-item" wicket:id="newReports">
+                    <div class="left-side">
+                        <a  href="#" class="title" wicket:id="report">[Тема]</a>
+                        <div class="author" >Автор: <span wicket:id="speaker">[Автор]</span></div>
+                    </div>
+                    <div class="right-side">
+                        <a href="#" >подробнее</a>
+                    </div>
+                </div>
+
+                <!--<form class="add-topic-form">-->
+                <form class="add-topic-form" wicket:id="form">
+                    <!--<input type="text" name="title" placeholder="Тема">-->
+                    <input type="text" name="title" placeholder="Тема" wicket:id="repInput">
+                    <button type="submit" class="btn">Добавить тему</button>
+                </form>
+            </div>
+            <!--END upcoming-meetings-list-->
+            <hr>
+        </div>
+        <!--END upcoming-meetings-->
+   </wicket:panel>
+</body>
+</html>
