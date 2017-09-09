@@ -64,20 +64,9 @@ public class ReportPanel extends Panel {
                     @Override
                     public void onClick()
                     {
-                        Report report = item.getModelObject();
+                        Report report = item.getModel().getObject();
                         Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-
-                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
-                            report.setLikeCounter(report.getLikeCounter() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),true);
-                            report.setWhoLikedIt(speakMap);
-                        } else if (!speakMap.get(authService.getLoginnedAccount())){
-                            report.setLikeCounter(report.getLikeCounter() + 1);
-                            report.setDislike(report.getDislike() - 1);
-                            speakMap.put(authService.getLoginnedAccount(),true);
-                            report.setWhoLikedIt(speakMap);
-                        }
-
+                        speakMap.put(authService.getLoginnedAccount(),true);
                         reportDAO.saveOrUpdate(report);
                     }
                 };
@@ -89,25 +78,25 @@ public class ReportPanel extends Panel {
                     {
                         Report report = item.getModel().getObject();
                         Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-
-                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
-                            report.setDislike(report.getDislike() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),false);
-                            report.setWhoLikedIt(speakMap);
-                        } else if (speakMap.get(authService.getLoginnedAccount())){
-                            report.setLikeCounter(report.getLikeCounter() - 1);
-                            report.setDislike(report.getDislike() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),false);
-                            report.setWhoLikedIt(speakMap);
-                        }
+                        speakMap.put(authService.getLoginnedAccount(),false);
                         reportDAO.saveOrUpdate(report);
                     }
                 };
 
                 item.add(plusClickLink);
                 item.add(disClickLink);
-                item.add(new Label("likeCounter", String.valueOf(item.getModel().getObject().getLikeCounter())));
-                item.add(new Label("dislike", String.valueOf(item.getModel().getObject().getDislike())));
+
+                /**
+                 *  Подсчет количества лайков и дизлайков.
+                 *  Создаётся стрим значений из Map(whoLikedIt) принадлежащего объекту класса Report.
+                 *  Происходит подсчет значений при помощи фильтрации соответствующей условию:
+                 *  Для Like - true, для Dislike - false
+                 */
+                long likes = report.getWhoLikedIt().values().stream().filter(e->e).count();
+                long dislikes = report.getWhoLikedIt().values().stream().filter(e->!e).count();
+
+                item.add(new Label("likeCounter", likes));
+                item.add(new Label("dislike", dislikes));
             }
         });
 
