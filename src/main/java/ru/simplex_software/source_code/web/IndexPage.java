@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ru.simplex_software.source_code.dao.MeetingDAO;
+import ru.simplex_software.source_code.dao.ReportDAO;
 import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
 import ru.simplex_software.source_code.model.Speaker;
@@ -27,7 +28,11 @@ public class IndexPage extends WebPage {
 	private static final long serialVersionUID = 1L;
 
 	@SpringBean
+	private AuthService authService;
+	@SpringBean
 	private MeetingDAO meetingDAO;
+	@SpringBean
+	private ReportDAO reportDAO;
 
 	public IndexPage(final PageParameters parameters) throws ParseException {
 		super(parameters);
@@ -35,82 +40,14 @@ public class IndexPage extends WebPage {
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderNewMeetings =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findNewMeeting", Model.of(new Date()));
 
-		DataView<Meeting> dataView = new DataView<Meeting>("newMeetings", hqDataProviderNewMeetings) {
+		DataView<Meeting> dataView = new DataView<Meeting>("newMeeting", hqDataProviderNewMeetings) {
 			@Override
 			protected void populateItem(Item<Meeting> item) {
 				item.add(new ReportPanel("reportPanel", item.getModel()));
 			}
 		};
 
-				final Link plusClickLink = new Link<Report>("plusClickLink",repModel)
-				{
-					@Override
-					public void onClick()
-					{
-						Report report = repModel.getObject();
-						Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-
-                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
-                            report.setLikeCounter(report.getLikeCounter() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),true);
-                            report.setWhoLikedIt(speakMap);
-                        } else if (!speakMap.get(authService.getLoginnedAccount())){
-                            report.setLikeCounter(report.getLikeCounter() + 1);
-                            report.setDislike(report.getDislike() - 1);
-                            speakMap.put(authService.getLoginnedAccount(),true);
-                            report.setWhoLikedIt(speakMap);
-                        }
-
-                        reportDAO.saveOrUpdate(report);
-					}
-				};
-				final Link disClickLink = new Link<Report>("disClickLink",repModel)
-				{
-					@Override
-					public void onClick()
-					{
-						Report report = repModel.getObject();
-						Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-
-						if (!speakMap.containsKey(authService.getLoginnedAccount())) {
-                            report.setDislike(report.getDislike() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),false);
-                            report.setWhoLikedIt(speakMap);
-						} else if (speakMap.get(authService.getLoginnedAccount())){
-                            report.setLikeCounter(report.getLikeCounter() - 1);
-                            report.setDislike(report.getDislike() + 1);
-                            speakMap.put(authService.getLoginnedAccount(),false);
-                            report.setWhoLikedIt(speakMap);
-                        }
-                        reportDAO.saveOrUpdate(report);
-                    }
-				};
-				item.add(plusClickLink);
-				item.add(disClickLink);
-				item.add(new Label("likeCounter", String.valueOf(repModel.getObject().getLikeCounter())));
-				item.add(new Label("dislike", String.valueOf(repModel.getObject().getDislike())));
-			}
-		};
-
-		Form<Void> form = new Form<Void>("form"){
-			@Override
-			protected void onSubmit() {
-				Report rep = new Report();
-				rep.setTitle(reportTitleModel.getObject());
-				rep.setAuthor(authService.getLoginnedAccount());
-				rep.setMeeting(meeting.getObject());
-				reportDAO.saveOrUpdate(rep);
-				meeting.getObject().getReports().add(rep);
-				meetingDAO.saveOrUpdate(meeting.getObject());
-
-				reportTitleModel.setObject("");
-			}
-		};
-		form.add(new TextField<>("repInput",reportTitleModel));
-
-		add(form);
 		add(dataView);
-
 
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderPrevMeeting =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findPastMeeting", Model.of(new Date()));
@@ -129,7 +66,5 @@ public class IndexPage extends WebPage {
 	    });
 
     }
-
-
 
 }

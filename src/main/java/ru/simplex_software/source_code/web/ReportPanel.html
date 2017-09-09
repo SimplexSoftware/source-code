@@ -21,13 +21,16 @@
                         <div class="author" >Автор: <span wicket:id="speaker">[Автор]</span></div>
                     </div>
                     <div class="right-side">
+                        <button type="submit" class="like" wicket:id="plusClickLink"></button>
+                        <span wicket:id="likeCounter"></span>
+                        <button type="submit" class="dislike" wicket:id="disClickLink"></button>
+                        <span wicket:id="dislike"></span>
                         <a href="#" >подробнее</a>
                     </div>
                 </div>
 
                 <!--<form class="add-topic-form">-->
                 <form class="add-topic-form" wicket:id="form">
-                    <!--<input type="text" name="title" placeholder="Тема">-->
                     <input type="text" name="title" placeholder="Тема" wicket:id="repInput">
                     <button type="submit" class="btn">Добавить тему</button>
                 </form>

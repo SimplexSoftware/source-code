@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
@@ -14,6 +15,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ru.simplex_software.source_code.dao.ReportDAO;
 import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
+import ru.simplex_software.source_code.model.Speaker;
 import ru.simplex_software.source_code.security.AuthService;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,11 +23,11 @@ import java.util.*;
 public class ReportPanel extends Panel {
 
     @SpringBean
-    private ReportDAO reportDAO;
-    @SpringBean
     private AuthService authService;
+    @SpringBean
+    private ReportDAO reportDAO;
 
-    private Model<String> reportTitleModel=new Model<>("");
+    private Model<String> reportTitleModel = new Model<>("");
 
     ReportPanel(String id, final IModel<Meeting> model) {
         super (id, model);
@@ -56,6 +58,56 @@ public class ReportPanel extends Panel {
 
                 item.add(new MultiLineLabel("report", report.getTitle()));
                 item.add(new Label("speaker", report.getAuthor().getFio()));
+
+                final Link plusClickLink = new Link<Report>("plusClickLink", item.getModel())
+                {
+                    @Override
+                    public void onClick()
+                    {
+                        Report report = item.getModelObject();
+                        Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
+
+                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
+                            report.setLikeCounter(report.getLikeCounter() + 1);
+                            speakMap.put(authService.getLoginnedAccount(),true);
+                            report.setWhoLikedIt(speakMap);
+                        } else if (!speakMap.get(authService.getLoginnedAccount())){
+                            report.setLikeCounter(report.getLikeCounter() + 1);
+                            report.setDislike(report.getDislike() - 1);
+                            speakMap.put(authService.getLoginnedAccount(),true);
+                            report.setWhoLikedIt(speakMap);
+                        }
+
+                        reportDAO.saveOrUpdate(report);
+                    }
+                };
+
+                final Link disClickLink = new Link<Report>("disClickLink", item.getModel())
+                {
+                    @Override
+                    public void onClick()
+                    {
+                        Report report = item.getModel().getObject();
+                        Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
+
+                        if (!speakMap.containsKey(authService.getLoginnedAccount())) {
+                            report.setDislike(report.getDislike() + 1);
+                            speakMap.put(authService.getLoginnedAccount(),false);
+                            report.setWhoLikedIt(speakMap);
+                        } else if (speakMap.get(authService.getLoginnedAccount())){
+                            report.setLikeCounter(report.getLikeCounter() - 1);
+                            report.setDislike(report.getDislike() + 1);
+                            speakMap.put(authService.getLoginnedAccount(),false);
+                            report.setWhoLikedIt(speakMap);
+                        }
+                        reportDAO.saveOrUpdate(report);
+                    }
+                };
+
+                item.add(plusClickLink);
+                item.add(disClickLink);
+                item.add(new Label("likeCounter", String.valueOf(item.getModel().getObject().getLikeCounter())));
+                item.add(new Label("dislike", String.valueOf(item.getModel().getObject().getDislike())));
             }
         });
 

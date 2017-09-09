@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * Доклад.
  */
 @Entity
-public class Report extends LongIdPersistentEntity{
+public class Report extends LongIdPersistentEntity implements Serializable{
     private static final Logger LOG = LoggerFactory.getLogger(Report.class);
     @OneToOne
     private Speaker author;
