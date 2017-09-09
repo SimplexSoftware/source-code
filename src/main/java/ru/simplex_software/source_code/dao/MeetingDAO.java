@@ -11,13 +11,13 @@ import java.util.List;
 
 @AutoDAO
 public interface MeetingDAO extends Dao<Meeting, Long>{
-    @Finder(query = "FROM Meeting WHERE date >= :date")
+    @Finder(query = "FROM Meeting WHERE date >= :date order by date")
     List<Meeting> findNewMeeting(@Named("date")Date date);
 
     @Finder(query = "select count(m) from  Meeting m where date<:date")
     long getCountPastMetting(@Named("date") Date date);
 
-    @Finder(query = " from  Meeting where date<:date")
+    @Finder(query = " from  Meeting where date<:date order by date")
     List<Meeting> findPastMeeting(@Named("date") Date date);
 
 
