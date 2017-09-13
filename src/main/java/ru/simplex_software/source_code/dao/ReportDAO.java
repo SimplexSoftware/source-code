@@ -13,6 +13,6 @@ import java.util.List;
 @AutoDAO
 public interface ReportDAO extends Dao<Report, Long>{
 
-    @Finder(query = "FROM Report WHERE meeting = :meeting")
+    @Finder(query = "FROM Report WHERE meeting = :meeting ORDER BY id")
     List<Report> findReportsForNewMeeting(@Named("meeting") Meeting meeting);
 }

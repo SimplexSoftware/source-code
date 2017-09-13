@@ -27,18 +27,16 @@ public class DataLoader {
     public void load() throws Exception{
         if (speakerDAO.countAllSpeakers() == 0) {
 
-            Date newDate;
-            Calendar instance = Calendar.getInstance();
-//            instance.setTime(date); //устанавливаем дату, с которой будет производить операции
-
             Meeting meeting;
             Speaker speaker;
             Report report;
             List<Report> reportList;
-
+            Calendar instance;
 
 //            предстоящие новые встречи
 //            1-я встреча
+            instance = Calendar.getInstance();
+
             meeting = new Meeting();
 
             speaker = new Speaker();
@@ -72,8 +70,7 @@ public class DataLoader {
             meeting.setReports(reportList);
 
             instance.add(Calendar.DAY_OF_MONTH, 3);
-            newDate = instance.getTime();
-            meeting.setDate(newDate);
+            meeting.setDate(instance.getTime());
 
             meetingDAO.saveOrUpdate(meeting);
 
@@ -111,13 +108,14 @@ public class DataLoader {
             meeting.setReports(reportList);
 
             instance.add(Calendar.DAY_OF_MONTH, 5);
-            newDate = instance.getTime();
-            meeting.setDate(newDate);
+            meeting.setDate(instance.getTime());
 
             meetingDAO.saveOrUpdate(meeting);
 
 //            предыдущие встречи
 //            1-я встреча
+            instance = Calendar.getInstance();
+
             meeting = new Meeting();
 
             speaker = new Speaker();
@@ -151,8 +149,7 @@ public class DataLoader {
             meeting.setReports(reportList);
 
             instance.add(Calendar.DAY_OF_MONTH, -3);
-            newDate = instance.getTime();
-            meeting.setDate(newDate);
+            meeting.setDate(instance.getTime());
 
             meetingDAO.saveOrUpdate(meeting);
 
@@ -192,8 +189,7 @@ public class DataLoader {
             meeting.setReports(reportList);
 
             instance.add(Calendar.DAY_OF_MONTH, -5);
-            newDate = instance.getTime();
-            meeting.setDate(newDate);
+            meeting.setDate(instance.getTime());
 
             meetingDAO.saveOrUpdate(meeting);
         }

@@ -32,15 +32,13 @@ public class IndexPage extends WebPage {
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderNewMeetings =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findNewMeeting", Model.of(new Date()));
 
-		DataView<Meeting> dataView = new DataView<Meeting>("newMeeting", hqDataProviderNewMeetings) {
+		add( new DataView<Meeting>("newMeeting", hqDataProviderNewMeetings) {
 			@Override
 			protected void populateItem(Item<Meeting> item) {
 
-				item.add(new ReportPanel("reportPanel", item.getModel()));
+				item.add(new ReportNewPanel("reportNewPanel", item.getModel()));
 			}
-		};
-
-		add(dataView);
+		});
 
 		HibernateQueryDataProvider<Meeting, Long> hqDataProviderPrevMeeting =
 				new	HibernateQueryDataProvider(MeetingDAO.class,"findPastMeeting", Model.of(new Date()));
@@ -51,10 +49,7 @@ public class IndexPage extends WebPage {
 			{
 				Meeting meet = item.getModelObject();
 
-				item.add(new Label("data", String.valueOf(new SimpleDateFormat
-						("dd.MM.yyyy").format(meet.getDate()))));
-				item.add(new Label("report", String.valueOf(meet.getReports().get(0).getTitle())));
-				item.add(new Label("speaker", String.valueOf("Автор: " + meet.getReports().get(0).getAuthor().getFio())));
+				item.add(new ReportPrevPanel("reportPrevPanel", item.getModel()));
 		    }
 	    });
     }

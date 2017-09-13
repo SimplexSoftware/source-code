@@ -48,23 +48,16 @@
 		<div class="left-main-content">
 			<!--upcoming-meetings-->
 			<div wicket:id="newMeeting">
-				<div wicket:id="reportPanel"></div>
+				<div wicket:id="reportNewPanel"></div>
 			</div>
 			<!--END upcoming-meetings-->
 
 			<!--past-meetings-->
 			<div class="past-meetings">
 				<div class="styled-title">Прошедшие встречи</div>
-
-				<!--past-meetings-list-->
-				<div class="past-meetings-list">
-					<div class="past-meetings-list-item" wicket:id="prevMeeting">
-						<div class="date" wicket:id="data">[date]</div>
-						<a  href="#" class="title" wicket:id="report">[Тема]></a>
-					    <div class="author" wicket:id="speaker">[Автор]</div>
-					</div>
+				<div wicket:id="prevMeeting">
+					<div wicket:id="reportPrevPanel"></div>
 				</div>
-				<!--END past-meetings-list-->
 			</div>
 			<!--END past-meetings-->
 		</div>

@@ -20,7 +20,7 @@ import ru.simplex_software.source_code.security.AuthService;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ReportPanel extends Panel {
+public class ReportNewPanel extends Panel {
 
     @SpringBean
     private AuthService authService;
@@ -29,12 +29,12 @@ public class ReportPanel extends Panel {
 
     private Model<String> reportTitleModel = new Model<>("");
 
-    ReportPanel(String id, final IModel<Meeting> model) {
+    ReportNewPanel(String id, final IModel<Meeting> model) {
         super (id, model);
 
         HibernateModel<Meeting> meeting = new HibernateModel<>(model.getObject());
 
-        SimpleDateFormat enterDateFormat = new SimpleDateFormat("d.MM.yyyy");
+        SimpleDateFormat enterDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String date = enterDateFormat.format(model.getObject().getDate());
 
         add(new Label("meetingDate", date));
