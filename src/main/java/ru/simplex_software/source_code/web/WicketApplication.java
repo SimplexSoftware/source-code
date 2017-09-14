@@ -33,6 +33,8 @@ public class WicketApplication extends WebApplication implements ApplicationCont
 		getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
+		mountPage("index.html", IndexPage.class);
+		mountPage("about.html", AboutPage.class);
 	}
 
 	@Override

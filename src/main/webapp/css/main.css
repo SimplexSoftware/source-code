@@ -429,6 +429,14 @@ body {
   font-size: 24px;
 }
 
+.site-header .wrap .header-left .menu{
+     padding: 15px 0 5px;
+}
+
+.site-header .wrap .header-left .menu-item{
+     padding: 0 20px 0 0;
+}
+
 .site-header .wrap .header-right {
   float: right;
   width: 158px;
@@ -768,7 +776,7 @@ body {
   .main .wrap .right-main-content .wishes .wishes-list {
     margin-top: 20px;
   }
-  .header-left .more{
+  /*.header-left .more{
    color: #01c4fc;
-  }
+  }*/
 }
