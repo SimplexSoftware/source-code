@@ -17,6 +17,9 @@ public interface MeetingDAO extends Dao<Meeting, Long>{
     @Finder(query = "SELECT count(m) FROM  Meeting m WHERE date<:date")
     long getCountPastMetting(@Named("date") Date date);
 
-    @Finder(query = " FROM  Meeting WHERE date<:date ORDER BY date DESC")
+    @Finder(query = " FROM Meeting WHERE date<:date ORDER BY date DESC")
     List<Meeting> findPastMeeting(@Named("date") Date date);
+
+    @Finder(query = "SELECT min(date) FROM Meeting WHERE date >= :date")
+    Date findNearestMeetingDate(@Named("date") Date date);
 }
