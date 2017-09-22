@@ -85,21 +85,21 @@ public class DataLoader {
             reportList = new ArrayList<>();
 
             report = new Report();
-            report.setTitle("Современная разработка на LoveView");
+            report.setTitle("Шаблоны и антишаблоны проектирования. Обзор");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
             reportList.add(report);
 
             report = new Report();
-            report.setTitle("Квадрокоптеры. Полёты во сне и наяву");
+            report.setTitle("Эргономика сайта. Главные законы.");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
             reportList.add(report);
 
             report = new Report();
-            report.setTitle("Профессиональное фото без границ");
+            report.setTitle("Аспектно-ориентированное программирование. Подводные камни");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
@@ -133,7 +133,7 @@ public class DataLoader {
             reportList.add(report);
 
             report = new Report();
-            report.setTitle("Популярные шаблоны проектирования");
+            report.setTitle("Популярные шаблоны проектирования на практике");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
@@ -166,21 +166,21 @@ public class DataLoader {
             reportList = new ArrayList<>();
 
             report = new Report();
-            report.setTitle("Как надо ремонтировать автомобили");
+            report.setTitle("Как достигается чистый Java-код?");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
             reportList.add(report);
 
             report = new Report();
-            report.setTitle("Гадание по руке для девушек");
+            report.setTitle("От теории к практике - пишем программу для гадания по руке для новичков");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
             reportList.add(report);
 
             report = new Report();
-            report.setTitle("Обсуждение клипа 'Злости нет!'");
+            report.setTitle("Ajile - вред или польза? Обзор.");
             report.setAuthor(speaker);
             report.setMeeting(meeting);
             reportDAO.saveOrUpdate(report);
