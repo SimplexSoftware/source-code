@@ -17,8 +17,12 @@ import ru.simplex_software.source_code.model.Meeting;
 import ru.simplex_software.source_code.model.Report;
 import ru.simplex_software.source_code.model.Speaker;
 import ru.simplex_software.source_code.security.AuthService;
+
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class ReportNewPanel extends Panel {
 
@@ -47,7 +51,7 @@ public class ReportNewPanel extends Panel {
                 final List<IModel<Report>> listModels = new LinkedList<IModel<Report>>();
 
                 for(Report report: reports){
-                    listModels.add(Model.of(report));
+                    listModels.add(new HibernateModel<>(report));
                 }
                 return listModels.iterator();
             }
@@ -66,19 +70,18 @@ public class ReportNewPanel extends Panel {
                     {
                         Report report = item.getModel().getObject();
                         Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-                        speakMap.put(authService.getLoginnedAccount(),true);
+                        speakMap.put(authService.getLogginedUserOrRedirect(),true);
                         reportDAO.saveOrUpdate(report);
                     }
                 };
 
-                final Link disClickLink = new Link<Report>("disClickLink", item.getModel())
-                {
+                final Link disClickLink = new Link<Report>("disClickLink", item.getModel()){
                     @Override
                     public void onClick()
                     {
                         Report report = item.getModel().getObject();
                         Map<Speaker,Boolean> speakMap= report.getWhoLikedIt();
-                        speakMap.put(authService.getLoginnedAccount(),false);
+                        speakMap.put(authService.getLogginedUserOrRedirect(),false);
                         reportDAO.saveOrUpdate(report);
                     }
                 };
@@ -105,7 +108,7 @@ public class ReportNewPanel extends Panel {
             protected void onSubmit() {
                 Report rep = new Report();
                 rep.setTitle(reportTitleModel.getObject());
-                rep.setAuthor(authService.getLoginnedAccount());
+                rep.setAuthor(authService.getLogginedUserOrRedirect());
                 rep.setMeeting(meeting.getObject());
                 reportDAO.saveOrUpdate(rep);
 

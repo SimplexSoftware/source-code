@@ -1,14 +1,15 @@
 package ru.simplex_software.source_code.security;
 
+import org.apache.wicket.RestartResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import ru.simplex_software.security.ulogin.ULoginAuthToken;
 import ru.simplex_software.security.ulogin.ULoginUser;
 import ru.simplex_software.source_code.dao.SpeakerDAO;
 import ru.simplex_software.source_code.model.Speaker;
+import ru.simplex_software.source_code.web.LoginPage;
 
 /** Класс, который предоставляет доступ к. */
 public class AuthService {
@@ -39,6 +40,15 @@ public class AuthService {
             return speaker;
         }
         return null;
+    }
+    @PreAuthorize("isAuthenticated()")
+    public Speaker getLogginedUserOrRedirect(){
+        Speaker loginnedAccount = getLoginnedAccount();
+        if(loginnedAccount==null){
+            throw new RestartResponseException(LoginPage.class);
+        }
+        return loginnedAccount;
+
     }
 
 }

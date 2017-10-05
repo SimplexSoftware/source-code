@@ -35,6 +35,7 @@ public class WicketApplication extends WebApplication implements ApplicationCont
 
 		mountPage("index.html", IndexPage.class);
 		mountPage("about.html", AboutPage.class);
+		mountPage("login.html", LoginPage.class);
 	}
 
 	@Override
