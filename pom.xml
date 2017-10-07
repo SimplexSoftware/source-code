@@ -348,6 +348,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>ROOT</finalName>
 		<resources>
 			<resource>
 				<filtering>false</filtering>
@@ -405,4 +406,21 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profile.selected>development</profile.selected>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<profile.selected>docker</profile.selected>
+			</properties>
+		</profile>
+	</profiles>
 </project>
