@@ -1,24 +1,14 @@
 #!/usr/bin/env bash
-docker network create constructor-network
-docker run --name constructor-postgres -e POSTGRES_PASSWORD=kaib7aeW --restart=always -d --net=constructor-network postgres
-docker run -d --restart=always --name constructor-web  --net=constructor-network -e "VIRTUAL_HOST=constructor.simplex-software.ru" -e "LETSENCRYPT_HOST=constructor.simplex-software.ru" -e "LETSENCRYPT_EMAIL=info@simplex-software.ru" wwwsimplexsoftwareru/constructor-web:v0.1
+docker network create source-code-network
+docker run --name source-code-postgres -e POSTGRES_PASSWORD=Uiphie4E --restart=always -d --net=source-code-network postgres
+docker run -d --restart=always --name source-code-web  --net=source-code-network -e "VIRTUAL_HOST=source-code.club" -e "LETSENCRYPT_HOST=source-code.club" -e "LETSENCRYPT_EMAIL=info@simplex-software.ru" wwwsimplexsoftwareru/source-code-web:v0.1
+
+#!/usr/bin/env bash
+docker build -t wwwsimplexsoftwareru/source-code-web:v0.1 .
 
 
 #!/usr/bin/env bash
-
-or
-docker run -d -p 80:80 --name nginx --restart=always -v /var/run/docker.sock:/tmp/docker.sock:ro --net=constructor-network  jwilder/nginx-proxy
-docker network connect constructor-network nginx
-
-#!/usr/bin/env bash
-docker build -t wwwsimplexsoftwareru/constructor-web:v0.1 .
-
-
-
-
-#!/usr/bin/env bash
-docker logs -f constructor-web
-
+docker logs -f source-code-web
 
 
 docker run -d -p 80:80  -p 443:443 --name nginx --restart=always \
@@ -28,14 +18,12 @@ docker run -d -p 80:80  -p 443:443 --name nginx --restart=always \
   -v /nginx/certs:/etc/nginx/certs:ro \
   -v /nginx/templates:/etc/docker-gen/templates:rw \
 -v /var/run/docker.sock:/tmp/docker.sock:ro \
- --net=constructor-network  jwilder/nginx-proxy
+ --net=source-code-network  jwilder/nginx-proxy
 
-
-#"rw" убрать? нужно создать файл  /path/to/templates/nginx.tmpl
 
 docker run -d \
   --name nginx-gen \
-  --net=constructor-network \
+  --net=source-code-network \
   --volumes-from nginx \
   -v /nginx/templates:/etc/docker-gen/templates:ro \
   -v /var/run/docker.sock:/tmp/docker.sock:ro \

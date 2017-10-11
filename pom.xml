@@ -297,7 +297,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>${postgres.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>4.2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
@@ -354,6 +358,7 @@
 				<filtering>false</filtering>
 				<directory>src/main/resources</directory>
 			</resource>
+
 			<resource>
 				<filtering>false</filtering>
 				<directory>src/main/java</directory>
@@ -364,6 +369,10 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/profiles/${selected.profile}</directory>
+            </resource>
 		</resources>
 		<testResources>
 			<testResource>
@@ -409,17 +418,14 @@
 	<profiles>
 		<profile>
 			<id>development</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
-				<profile.selected>development</profile.selected>
+				<selected.profile>development</selected.profile>
 			</properties>
 		</profile>
 		<profile>
 			<id>docker</id>
 			<properties>
-				<profile.selected>docker</profile.selected>
+				<selected.profile>docker</selected.profile>
 			</properties>
 		</profile>
 	</profiles>

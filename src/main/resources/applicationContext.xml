@@ -11,6 +11,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
+    <import resource="profileContext.xml"/>
     <context:component-scan base-package="ru.simplex_software.source_code" />
     <dao:hibernateScan base-package="ru.simplex_software.source_code.dao" />
 
@@ -38,7 +39,8 @@
         <property name="maxPoolSize" value="40" />
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+          depends-on="flywaySQL" >
 
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan">
@@ -68,8 +70,7 @@
 
     <bean class="ru.simplex_software.source_code.security.AuthService" />
 
-    <bean class="ru.simplex_software.source_code.DataLoader" />
-    <bean class="ru.simplex_software.source_code.DataLoaderInit" depends-on="sessionFactory" />
+
 
     <bean class="net.sf.wicketautodao.model.AutoDaoFinder" />
 
