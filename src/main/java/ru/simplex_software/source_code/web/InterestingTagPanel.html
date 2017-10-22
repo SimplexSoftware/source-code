@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+
+<head>
+    <title>Interesting tag panel</title>
+</head>
+<body>
+<wicket:panel>
+    <div>
+        <div class="wishes-list-item">
+            <div class="left-side">
+                    <span wicket:id="tag">tagName</span>
+                    (<a href="" wicket:id="link">
+                        <wicket:container wicket:id="link-text"/>
+                    </a>)
+            </div>
+            <div class="right-side">
+                <button type="button" class="like"></button>
+                <button type="button" class="dislike"></button>
+            </div>
+        </div>
+    </div>
+</wicket:panel>
+</body>
+</html>

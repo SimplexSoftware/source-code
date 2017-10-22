@@ -5,199 +5,45 @@
 
 <wicket:extend>
 
-<main class="main">
-	<div class="wrap">
-		<!--left-main-content-->
-		<div class="left-main-content">
-			<!--upcoming-meetings-->
-			<div wicket:id="newMeeting">
-				<div wicket:id="reportNewPanel"></div>
-			</div>
-			<!--END upcoming-meetings-->
+    <main class="main">
+        <div class="wrap">
+            <!--left-main-content-->
+            <div class="left-main-content">
+                <!--upcoming-meetings-->
+                <div wicket:id="newMeeting">
+                    <div wicket:id="reportNewPanel"></div>
+                </div>
+                <!--END upcoming-meetings-->
 
-			<!--past-meetings-->
-			<div class="past-meetings">
-				<div class="styled-title">Прошедшие встречи</div>
-				<div wicket:id="prevMeeting">
-					<div wicket:id="reportPrevPanel"></div>
-				</div>
-			</div>
-			<!--END past-meetings-->
-		</div>
-		<!--END left-main-content-->
+                <!--past-meetings-->
+                <div class="past-meetings">
+                    <div class="styled-title">Прошедшие встречи</div>
+                    <div wicket:id="prevMeeting">
+                        <div wicket:id="reportPrevPanel"></div>
+                    </div>
+                </div>
+                <!--END past-meetings-->
+            </div>
+            <!--END left-main-content-->
 
-		<!--right-main-content-->
-		<div class="right-main-content">
-			<!--wishes-->
-			<div class="wishes">
-				<div class="styled-title">Интересные мне темы</div>
+            <!--right-main-content-->
+            <div class="right-main-content">
+                <!--wishes-->
+                <div class="wishes">
+                    <div class="styled-title">Интересные мне темы</div>
 
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
+                    <div wicket:id="wishes-menu"></div>
 
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
+                </div>
+                <!--END wishes-->
+            </div>
+            <!--END right-main-content-->
+        </div>
+    </main>
 
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
-
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
-
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
-
-				<!--wishes-list-->
-				<div class="wishes-list">
-					<div class="wishes-list-item">
-						<div class="left-side">тема <span>(<a href="#">10</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">JDK9 <span>(<a href="#">5</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-					<div class="wishes-list-item">
-						<div class="left-side">exeception <span>(<a href="#">2</a>)</span></div>
-						<div class="right-side">
-							<button type="button" class="like"></button>
-							<button type="button" class="dislike"></button>
-						</div>
-					</div>
-				</div>
-				<!--END wishes-list-->
-
-			</div>
-			<!--END wishes-->
-		</div>
-		<!--END right-main-content-->
-	</div>
-</main>
-
-<!--scripts-->
-<!--<script src="js/main.js"></script>-->
-<!--END scripts-->
+    <!--scripts-->
+    <!--<script src="js/main.js"></script>-->
+    <!--END scripts-->
 
 </wicket:extend>
 
