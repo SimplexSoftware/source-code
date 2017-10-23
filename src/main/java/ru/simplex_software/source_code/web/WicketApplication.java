@@ -10,16 +10,20 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * Application object for your web application.
  */
-public class WicketApplication extends WebApplication implements ApplicationContextAware{
+public class WicketApplication extends WebApplication
+	implements ApplicationContextAware {
 
-	private ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext;
+
+	public static ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
 
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
 	@Override
-	public Class<? extends WebPage> getHomePage()
-	{
+	public Class<? extends WebPage> getHomePage() {
 		return IndexPage.class;
 	}
 
@@ -27,9 +31,11 @@ public class WicketApplication extends WebApplication implements ApplicationCont
 	 * @see org.apache.wicket.Application#init()
 	 */
 	@Override
-	public void init(){
+	public void init() {
 		super.init();
-		this.getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext, true));
+		getComponentInstantiationListeners().add(
+			new SpringComponentInjector(this,
+				applicationContext, true));
 		getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
@@ -39,7 +45,8 @@ public class WicketApplication extends WebApplication implements ApplicationCont
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext=applicationContext;
+	public void setApplicationContext(ApplicationContext applicationContext)
+		throws BeansException {
+		WicketApplication.applicationContext = applicationContext;
 	}
 }

@@ -4,7 +4,6 @@ import net.sf.wicketautodao.model.HibernateQueryDataProvider;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ru.simplex_software.source_code.dao.MeetingDAO;
 import ru.simplex_software.source_code.dao.ReportDAO;
@@ -27,8 +26,9 @@ public class IndexPage extends SuperPage {
     @SpringBean
     private TagDAO tagDAO;
 
-    public IndexPage(final PageParameters parameters) throws ParseException {
-//super(parameters);
+
+
+    public IndexPage() throws ParseException {
 
         HibernateQueryDataProvider<Meeting, Long> hqDataProviderNewMeetings =
             new HibernateQueryDataProvider(MeetingDAO.class, "findNewMeeting", Model.of(new Date()));
