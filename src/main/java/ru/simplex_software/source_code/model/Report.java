@@ -4,8 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToOne;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,16 +18,16 @@ import java.util.Map;
  * Доклад.
  */
 @Entity
-public class Report extends LongIdPersistentEntity implements Serializable{
+public class Report extends LongIdPersistentEntity {
     private static final Logger LOG = LoggerFactory.getLogger(Report.class);
     @OneToOne
     private Speaker author;
-    private String title;
+    private String  title;
     @ElementCollection
     @CollectionTable
     @Column
     @MapKeyJoinColumn
-    private Map<Speaker,Boolean> whoLikedIt = new HashMap<>();
+    private Map<Speaker, Boolean> whoLikedIt = new HashMap<>();
 
     @ManyToOne
     private Meeting meeting;

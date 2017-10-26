@@ -9,22 +9,24 @@
         <!--upcoming-meetings-->
         <div class="upcoming-meetings">
             <div class="styled-title">
-                <div  class="styled-title" wicket:id="meetingDate">[Дата]</div>
+                <div  class="styled-title" wicket:id="meeting-date">[Дата]</div>
                 <span>Встреча программистов г. Москва</span>
             </div>
 
             <!--upcoming-meetings-list-->
             <div class="upcoming-meetings-list">
-                <div class="upcoming-meetings-list-item" wicket:id="newReports">
+                <div class="upcoming-meetings-list-item" wicket:id="future-reports">
                     <div class="left-side">
-                        <a  href="#" class="title" wicket:id="report">[Тема]</a>
+                        <a  href="#" class="title" wicket:id="report">
+                            <wicket:container wicket:id="report-name" />
+                        </a>
                         <div class="author" >Автор: <span wicket:id="speaker">[Автор]</span></div>
                     </div>
                     <div class="right-side">
-                        <button type="submit" class="like" wicket:id="plusClickLink"></button>
-                        <span wicket:id="likeCounter"></span>
-                        <button type="submit" class="dislike" wicket:id="disClickLink"></button>
-                        <span wicket:id="dislike"></span>
+                        <button type="submit" class="like" wicket:id="like"></button>
+                        <span wicket:id="like-counter"></span>
+                        <button type="submit" class="dislike" wicket:id="dislike"></button>
+                        <span wicket:id="dislike-counter"></span>
                         <a href="#" >подробнее</a>
                     </div>
                 </div>

@@ -9,6 +9,6 @@ import java.util.List;
 
 @AutoDAO
 public interface TagDAO extends Dao<Tag, Long> {
-    @Finder(query = "FROM Tag")
+    @Finder(query = "FROM Tag ORDER BY name")
     List<Tag> findAllTags();
 }

@@ -70,7 +70,7 @@
 
     <bean class="ru.simplex_software.source_code.security.AuthService" />
 
-
+    <bean class="ru.simplex_software.source_code.VoteUtils" />
 
     <bean class="net.sf.wicketautodao.model.AutoDaoFinder" />
 
