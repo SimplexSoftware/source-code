@@ -494,6 +494,10 @@ body {
 }
 
 /*-------------------- main --------------------*/
+.main .wrap .login .auth-block {
+    text-align: center;
+}
+
 .main .wrap {
   padding: 50px 0;
 }

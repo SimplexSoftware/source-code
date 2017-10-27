@@ -5,11 +5,22 @@
     <title>Login page</title>
 </head>
 <body>
-    <wicket:extend>
-        <div class="auth-block">
-            <script src="//ulogin.ru/js/ulogin.js"></script>
-            <div id="uLogin_add94d11" data-uloginid="add94d11"></div>
+<wicket:extend>
+    <main class="main">
+        <div class="wrap">
+            <div class="login">
+                <div class="styled-title">Войдите через социальную сеть</div>
+                <div class="auth-block">
+                    <script src="//ulogin.ru/js/ulogin.js"></script>
+                    <!--Login page includes two similar elements displaying social nets' items:
+                    in the header and in the main. With equal ids the script will download it
+                    only once, thus the following id was changed to a duplicated id.-->
+                    <div id="duplicated.uLogin_add94d11" data-uloginid="add94d11"></div>
+                </div>
+            </div>
         </div>
-    </wicket:extend>
+    </main>
+</wicket:extend>
+
 </body>
 </html>
