@@ -32,14 +32,18 @@
 
             <div class = "menu" wicket:id="menuPanel"></div>
         </div>
-        <div class="header-right">
-            <div class="auth-title">Вход</div>
+        <div class="header-right" wicket:id="logArea">
+        </div>
+        <wicket:fragment wicket:id="login">
+            <div class="auth-title">Вход:</div>
             <div class="auth-block">
                 <script src="//ulogin.ru/js/ulogin.js"></script>
                 <div id="uLogin_add94d11" data-uloginid="add94d11"></div>
             </div>
-        </div>
-
+        </wicket:fragment>
+        <wicket:fragment wicket:id="logout">
+            <a href="/logout" class="auth-title">Выход</a>
+        </wicket:fragment>
 
     </div>
 </header>
