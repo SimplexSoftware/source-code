@@ -20,7 +20,7 @@ public class Tag extends LongIdPersistentEntity {
     private static final Logger LOG = LoggerFactory.getLogger(Tag.class);
 
     private String name;
-    private int    rating = 0;
+    private int rating = 0;
 
     @ElementCollection
     @CollectionTable

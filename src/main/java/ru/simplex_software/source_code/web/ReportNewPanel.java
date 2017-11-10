@@ -27,10 +27,10 @@ public class ReportNewPanel extends Panel {
     private VoteUtils voteUtils;
 
     @SpringBean
-    private AuthService   authService;
+    private AuthService authService;
 
     @SpringBean
-    private ReportDAO     reportDAO;
+    private ReportDAO reportDAO;
 
     private Model<String> reportTitleModel = new Model<>("");
 

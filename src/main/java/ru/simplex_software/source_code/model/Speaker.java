@@ -18,8 +18,9 @@ public class Speaker implements PersistentEntity<String>{
     @Id
     private String socialId;
     private String fio;
-
+    private String email;
     private double raiting;
+    private boolean subscriber;
 
     @Override
     public String getPrimaryKey() {
@@ -62,4 +63,19 @@ public class Speaker implements PersistentEntity<String>{
         this.raiting = raiting;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isSubscriber() {
+        return subscriber;
+    }
+
+    public void setSubscriber(boolean subscriber) {
+        this.subscriber = subscriber;
+    }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+    <wicket:extend>
+
+        <br>
+
+        <h1 align="center" style="color : #f79001">Профиль</h1>
+
+        <div style="margin-top: 30px">
+
+            <table>
+                <tr>
+                    <th>Полное имя :</th>
+                    <td wicket:id="fio"></td>
+                </tr>
+                <tr>
+                    <th>Рейтинг :</th>
+                    <td wicket:id="raiting"></td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div wicket:id="message" style="padding : 10px"></div>
+
+        <div style="margin-top : 20px">
+            <form wicket:id="profileForm">
+
+                <table>
+
+                    <tr>
+                        <th>
+                            <label for="emailInput">Укажите email для напоминаний :</label>
+                        </th>
+                        <td>
+                            <input type="email" wicket:id="email" id="emailInput" style="color : black">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="listenCheck">Напомнить о встрече за 1 день :</label>
+                        </th>
+                        <td>
+                            <input type="checkbox" wicket:id="subscriber" id=listenCheck>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <input type="submit" value="Напоминать" class="btn" align="center">
+
+            </form>
+
+        </div>
+
+    </wicket:extend>
+
+    </body>
+</html>
