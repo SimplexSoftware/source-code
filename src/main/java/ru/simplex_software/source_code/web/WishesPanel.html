@@ -6,11 +6,38 @@
 </head>
 <body>
 <wicket:panel>
+
+    <!--Wishes list-->
     <div class="wishes-list">
         <div wicket:id="interestingTag">
             <div wicket:id="interestingTagPanel"></div>
         </div>
     </div>
+    <!--End wishes list-->
+
+    <!--Fragment content-->
+    <br>
+    <div wicket:id="fragmentContent"></div>
+    <!--End fragment content-->
+
+    <!--Form fragment-->
+    <wicket:fragment wicket:id="form">
+        <div wicket:id="message"></div>
+
+        <div id="add-wishes-form" style="margin-top:15px">
+            <form wicket:id="wishes-form">
+                <input type="text" wicket:id="wishes-input" style="color:black" placeholder="Введите название темы">
+                <input type="submit" value="Добавить" class="btn" style="margin-top:15px">
+            </form>
+        </div>
+    </wicket:fragment>
+    <!--End form fragment-->
+
+    <!--Empty fragment-->
+    <wicket:fragment wicket:id="empty">
+
+    </wicket:fragment>
+    <!--End empty fragment-->
 </wicket:panel>
 </body>
 </html>
