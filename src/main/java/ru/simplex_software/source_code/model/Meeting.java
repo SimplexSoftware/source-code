@@ -16,10 +16,21 @@ import java.util.List;
 @Entity
 public class Meeting extends LongIdPersistentEntity {
     private static final Logger LOG = LoggerFactory.getLogger(Meeting.class);
+
     private Date date = new Date();
+
+    private boolean wasNotification;
 
     @OneToMany(mappedBy = "meeting")
     private List<Report> reports = new ArrayList<>();
+
+    public boolean isWasNotification() {
+        return wasNotification;
+    }
+
+    public void setWasNotification(boolean notification) {
+        this.wasNotification = notification;
+    }
 
     public Date getDate() {
         return date;

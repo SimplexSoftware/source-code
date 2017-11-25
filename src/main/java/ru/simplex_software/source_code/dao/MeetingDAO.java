@@ -11,6 +11,7 @@ import java.util.List;
 
 @AutoDAO
 public interface MeetingDAO extends Dao<Meeting, Long>{
+
     @Finder(query = "FROM Meeting WHERE date >= :date ORDER by date")
     List<Meeting> findNewMeeting(@Named("date")Date date);
 
@@ -22,4 +23,7 @@ public interface MeetingDAO extends Dao<Meeting, Long>{
 
     @Finder(query = "SELECT min(date) FROM Meeting WHERE date >= :date")
     Date findNearestMeetingDate(@Named("date") Date date);
+
+    @Finder(query = "FROM Meeting WHERE date >= :nowDate and date <= :nextDate and wasNotification = false ORDER by date")
+    List<Meeting> findFutureMeeting(@Named("nowDate")Date date, @Named("nextDate") Date nextDate);
 }

@@ -4,11 +4,13 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dao="http://autodao.sourceforge.net/schemas/autodao-0.12"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="
        http://autodao.sourceforge.net/schemas/autodao-0.12  http://autodao.sourceforge.net/schemas/autodao-0.12.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 
 
     <import resource="profileContext.xml"/>
@@ -16,9 +18,11 @@
     <dao:hibernateScan base-package="ru.simplex_software.source_code.dao" />
 
     <!--<bean name="userDetailsService" class="ru.simplex_software.source_code.security.UserDetailsServiceImpl" />-->
+
     <!--<bean name="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider" >-->
         <!--<property name="userDetailsService" ref="userDetailsService"/>-->
     <!--</bean>-->
+
     <bean name="uloginAuthentifiactionProvider" class="ru.simplex_software.security.ulogin.UloginAuthentifiactionProvider">
         <constructor-arg value="source-code.dev-server.ru"/>
     </bean>
@@ -26,7 +30,12 @@
     <bean class="ru.simplex_software.source_code.web.WicketApplication" />
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:app.properties" />
+        <property name="locations">
+            <list>
+                <value>classpath:app.properties</value>
+                <value>classpath:mail.properties</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
@@ -73,5 +82,28 @@
     <bean class="ru.simplex_software.source_code.VoteUtils" />
 
     <bean class="net.sf.wicketautodao.model.AutoDaoFinder" />
+
+    <bean id="velocityEngine" class="org.apache.velocity.app.VelocityEngine"/>
+
+    <bean id="JavaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${smtp.host}"/>
+        <property name="port" value="${smtp.port}"/>
+        <property name="username" value="${smtp.username}"/>
+        <property name="password" value="${smtp.password}"/>
+        <property name="protocol" value="${smtp.protocol}"/>
+        <property name="JavaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="mailSender" class="ru.simplex_software.source_code.mailService.MailSender"/>
+
+    <task:scheduled-tasks scheduler="mailScheduler">
+        <task:scheduled ref="mailSender" method="sendEvent" fixed-delay="3600000"/>
+    </task:scheduled-tasks>
+
+    <task:scheduler id="mailScheduler"/>
 
 </beans>

@@ -23,7 +23,6 @@ public class AuthService {
      */
     public Speaker getLoginnedAccount() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Speaker account;
         if (auth instanceof ULoginAuthToken) {
 
             ULoginAuthToken uLoginAuth = (ULoginAuthToken) auth;

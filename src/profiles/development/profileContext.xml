@@ -6,5 +6,11 @@
     <bean class="ru.simplex_software.source_code.DataLoader" />
     <bean class="ru.simplex_software.source_code.DataLoaderInit" depends-on="sessionFactory" />
     <!--stub flyway-->
-    <bean class="java.lang.String" id="flywaySQL"/>
+
+    <bean class="org.flywaydb.core.Flyway" id="flywaySQL" init-method="migrate">
+        <property name="baselineOnMigrate" value="true" />
+        <property name="locations" value="classpath:/migrations"/>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
 </beans>

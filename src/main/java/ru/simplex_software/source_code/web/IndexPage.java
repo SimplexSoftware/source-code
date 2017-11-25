@@ -15,7 +15,6 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class IndexPage extends SuperPage {
-    private static final long serialVersionUID = 1L;
 
     @SpringBean
     private AuthService authService;

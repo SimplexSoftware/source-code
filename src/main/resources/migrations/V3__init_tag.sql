@@ -1,4 +1,4 @@
-ALTER TABLE tag ADD COLUMN rating BIGINT;
+ALTER TABLE tag ADD COLUMN rating int;
 
 CREATE TABLE tag_wholikedit (
     tag_id bigint NOT NULL,
