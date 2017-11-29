@@ -1,0 +1,1 @@
+UPDATE tag SET rating = 0;
