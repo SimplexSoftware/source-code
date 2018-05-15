@@ -11,7 +11,10 @@ import java.io.IOException;
 
 public class TransactionFilter implements Filter {
 
-    @Transactional @Override public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    @Transactional
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         chain.doFilter(request, response);
     }
 }

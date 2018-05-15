@@ -3,7 +3,6 @@ package ru.simplex_software.source_code.model;
 import net.sf.autodao.PersistentEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.simplex_software.zkutils.entity.LongIdPersistentEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

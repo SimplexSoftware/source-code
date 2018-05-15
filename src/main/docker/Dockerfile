@@ -1,4 +1,4 @@
-FROM tomcat:8.5.14-jre8
+FROM tomcat:8.5.3-jre8
 #ADD ./non-free.list /etc/apt/sources.list.d
 RUN apt-get update
 RUN apt-get -y install nano

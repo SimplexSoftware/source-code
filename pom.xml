@@ -137,8 +137,8 @@
 
 		<dependency>
 			<groupId>ru.simplex_software</groupId>
-			<artifactId>zkutils</artifactId>
-			<version>1.1</version>
+			<artifactId>autodao-utils</artifactId>
+			<version>1.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate.javax.persistence</groupId>
@@ -151,7 +151,7 @@
 		<dependency>
 			<groupId>net.sf.wicket-autodao</groupId>
 			<artifactId>wicket-autodao</artifactId>
-			<version>0.8</version>
+			<version>0.15</version>
 		</dependency>
 
 		<!--Hibernate framework-->
@@ -338,9 +338,9 @@
         </dependency>
 
 		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-validation_1.0_spec</artifactId>
-			<version>1.1</version>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
 		</dependency>
 
 		<dependency>
